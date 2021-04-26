@@ -1,7 +1,7 @@
-import CTime from './CityPinyin.vue';
+import CityPinyin from './CityPinyin.vue';
 
 export default {
   install(Vue) {
-    Vue.component('CityPinyin', CTime);
+    Vue.component('CityPinyin', CityPinyin);
   }
 };

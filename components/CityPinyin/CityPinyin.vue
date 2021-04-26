@@ -80,7 +80,7 @@
       return {
         cityPanelIsShow: false,
         isMouseOver: false,
-        cityId: this.value,
+        cityItem: this.value,
         noHot: false, // 没有热门城市
         cityList,
         tagsArr,
@@ -89,19 +89,25 @@
       }
     },
     watch: {
-      value(val) {
-        this.cityId = val;
+      value: {
+        deep: true,
+        handler: function (val) {
+          this.cityItem = val;
+        }
       },
-      cityId(val) {
-        this.$emit("on-change", val);
+      cityItem: {
+        deep: true,
+        handler: function (val) {
+          this.$emit("on-change", val);
+        }
       }
     },
     computed: { // 当前城市名字
       currCityName() {
-        let {cityId, cityList} = this, cityName = '';
+        let {cityItem, cityList} = this, cityName = '';
         Object.keys(cityList).forEach((item) => {
           cityList[item].forEach((item) => {
-            if (cityId == item.id) {
+            if (cityItem.id == item.id) {
               cityName = item.name;
             }
           })
@@ -144,9 +150,9 @@
       },
       // 选中de数据
       choiceCity(item) {
-        this.cityId = item.id;
-        // this.$emit('on-change', item.id);
-        // console.log(145, item.id, item.name);
+        this.cityItem = item;
+        // this.$emit('on-change', item);
+        // console.log(150, item.id, item.name);
 
         // 关闭选择区域
         this.isMouseOver = true;
