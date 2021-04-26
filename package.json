@@ -20,7 +20,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vmto?"
+    "url": "git+https://github.com/vmto/vue-city-pinyin.git"
   },
   "author": {
     "name": "saturn",
@@ -28,7 +28,7 @@
     "url": "https://github.com/vmto"
   },
   "bugs": {
-    "url": "https://github.com/vue-demo/v-log/issues",
+    "url": "https://github.com/vmto/vue-city-pinyin/issues",
     "email": "vmto@qq.com"
   },
   "homepage": "https://github.com/vmto",
