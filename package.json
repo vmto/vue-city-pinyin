@@ -1,7 +1,7 @@
 {
   "name": "vue-city-pinyin",
   "main": "index.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "vue城市选择组件（按城市首字母排序）",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

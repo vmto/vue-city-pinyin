@@ -12,7 +12,7 @@ npm install vue-city-pinyin china-city-data
 ````base
 # main.js
 import Vue from 'vue';
-import CityPinyin from 'CityPinyin';
+import CityPinyin from 'vue-city-pinyin';
 Vue.use(CityPinyin);
 ````
 
