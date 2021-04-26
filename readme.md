@@ -6,7 +6,7 @@
 npm install vue-city-pinyin china-city-data 
 ````
 
-####Demo
+#### Demo
 ![color](img/demo.png)
 
 ````base
