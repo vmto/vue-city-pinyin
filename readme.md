@@ -2,13 +2,13 @@
 
 > Development based on webstorm2023 and volar plugin
 
-## install
+## Install
 
 ````
 pnpm add vue-city-pinyin
 ````
 
-## preview
+## Preview
 ![color](img/demo.png)
 
 ## Example
