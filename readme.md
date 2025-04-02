@@ -1,50 +1,74 @@
-## vue-city-pinyin
+# vue-city-pinyin
 
-#### Project setup
+> Development based on webstorm2023 and volar plugin
+
+## install
 
 ````
-npm install vue-city-pinyin china-city-data 
+pnpm add vue-city-pinyin
 ````
 
-#### Demo
+## preview
 ![color](img/demo.png)
+
+## Example
 
 ````base
 # main.js
-import Vue from 'vue';
-import CityPinyin from 'vue-city-pinyin';
-Vue.use(CityPinyin);
+
+// code...
+
+import cityPinyin from 'vue-city-pinyin';
+import 'vue-city-pinyin/dist/index.css';
+
+app.use(cityPinyin);
 ````
 
 ````base
-# App.vue
-<CityPinyin :value="startCity" @on-change="onChange($event,0)" msg="出发城市"/>
-<CityPinyin :value="endCity" @on-change="onChange($event,1)" msg="到达城市"/>
-data() {
-    return {
-        startCity: {
-          id: '',
-          name: '',
-        },
-        endCity: {
-          id: '',
-          name: '',
-        }
-    }
-},
-methods: {
-onChange(item, idx) {
-    console.log(idx, item);
-    if (!idx) {
-      this.startCity = item;
-    } else {
-      this.endCity = item;
-    }
-  }
-}
-````
+<script setup lang="ts">
+import { ref } from 'vue'
 
-```
-npm config set registry https://registry.npm.taobao.org
-npm config set registry https://registry.npmjs.org
-```
+type CityType = {
+  id: string
+  name: string
+}
+
+const startCity = ref<CityType>({
+  id: '',
+  name: '',
+})
+
+const endCity = ref<CityType>({
+  id: '',
+  name: '',
+})
+
+function onChange(item: CityType, type: string) {
+  if (type === 'start')
+    startCity.value = item
+  else
+    endCity.value = item
+}
+
+function onSubmit() {
+  console.log('出发城市', startCity.value);
+  console.log('到达城市', endCity.value);
+}
+</script>
+
+<template>
+  <div class="demo">
+    <div style="padding: 10px;">
+      <div>出发城市</div>
+      <city-select :data="startCity" @on-change="onChange($event, 'start')" hot/>
+    </div>
+    <div style="padding: 10px;">
+      <div>到达城市</div>
+      <city-select :data="endCity" @on-change="onChange($event, 'end')"/>
+    </div>
+    <div style="padding: 10px;">
+      <np-button @click="onSubmit">获取城市</np-button>
+    </div>
+  </div>
+</template>
+````

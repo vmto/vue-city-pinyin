@@ -1,36 +1,91 @@
 {
   "name": "vue-city-pinyin",
-  "main": "index.js",
-  "version": "1.0.2",
-  "description": "vue城市选择组件（按城市首字母排序）",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "type": "module",
+  "version": "2.0.3",
+  "description": "City selection package",
+  "author": {
+    "name": "Saturn",
+    "email": "vmto@qq.com",
+    "url": "https://github.com/vmto"
   },
-  "dependencies": {
-    "china-city-data": "^1.0.1"
-  },
-  "keywords": [
-    "vue-city-pinyin",
-    "vue-city-picker",
-    "vue-citypicker",
-    "vue-city-select",
-    "city-pinyin",
-    "city-select",
-    "citypicker"
-  ],
+  "license": "MIT",
+  "homepage": "https://github.com/vmto",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vmto/vue-city-pinyin.git"
-  },
-  "author": {
-    "name": "saturn",
-    "email": "vmto@qq.com",
-    "url": "https://github.com/vmto"
   },
   "bugs": {
     "url": "https://github.com/vmto/vue-city-pinyin/issues",
     "email": "vmto@qq.com"
   },
-  "homepage": "https://github.com/vmto",
-  "license": "MIT"
+  "keywords": [
+    "city-picker",
+    "city-select",
+    "vue-city",
+    "vue-city-pinyin"
+  ],
+  "exports": {
+    ".": {
+      "types": "./es/index.d.ts",
+      "import": "./es/index.js",
+      "require": "./lib/index.js"
+    },
+    "./es/*": "./es/*",
+    "./lib/*": "./lib/*",
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
+  "main": "./es/index.js",
+  "module": "./es/index.js",
+  "types": "./es/index.d.ts",
+  "files": [
+    "dist",
+    "es",
+    "img",
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vite build",
+    "build:umd": "vite build --config vite.umd.config.ts",
+    "build:style": "vite build --config vite.style.config.ts",
+    "test": "vitest",
+    "coverage": "vitest --coverage"
+  },
+  "peerDependencies": {
+    "classnames": ">=2.0.0",
+    "lodash-es": ">=4.0.0",
+    "vue": ">=3.0.0"
+  },
+  "dependencies": {
+    "classnames": "^2.5.1",
+    "lodash-es": "^4.17.21",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@mistjs/eslint-config": "^1.0.0",
+    "@types/fs-extra": "^11.0.4",
+    "@types/jest": "^29.5.14",
+    "@types/less": "^3.0.8",
+    "@types/lodash-es": "^4.17.12",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.13.10",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vitejs/plugin-vue-jsx": "^4.1.2",
+    "@vitest/coverage-v8": "^3.0.9",
+    "@vue/test-utils": "^2.4.6",
+    "@vue/tsconfig": "^0.7.0",
+    "eslint": "8.57.1",
+    "esno": "^4.8.0",
+    "fast-glob": "^3.3.3",
+    "fs-extra": "^11.3.0",
+    "jsdom": "^26.0.0",
+    "less": "^4.2.2",
+    "vite": "^6.2.0",
+    "vite-plugin-dts": "^4.5.3",
+    "vite-plugin-tsx-resolve-types": "^0.0.4",
+    "vue-tsc": "^2.2.4"
+  }
 }
