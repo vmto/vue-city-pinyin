@@ -67,7 +67,7 @@ function onSubmit() {
       <city-select :data="endCity" @on-change="onChange($event, 'end')"/>
     </div>
     <div style="padding: 10px;">
-      <np-button @click="onSubmit">获取城市</np-button>
+      <button @click="onSubmit">获取城市</button>
     </div>
   </div>
 </template>

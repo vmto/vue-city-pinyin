@@ -7,48 +7,49 @@ import path from "node:path";
 
 // https://vite.dev/config/
 export default defineConfig({
-    plugins: [
-        vue(),
-        vueJsx(),
-        tsxTypes(),
-        dts({
-            entryRoot: 'src',
-            outDir: ['es', 'lib'],
-            exclude: ['**/tests/**'],
-        }),
-    ],
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, './src'),
-        },
+  plugins: [
+    vue(),
+    vueJsx(),
+    tsxTypes(),
+    dts({
+      entryRoot: 'src',
+      outDir: ['es', 'lib'],
+      exclude: ['**/tests/**'],
+    }),
+  ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
-    build: {
-        rollupOptions: {
-            external: [
-                'vue',
-                'lodash-es',
-                'classnames',
-            ],
-            output: [
-                {
-                    preserveModules: true,
-                    preserveModulesRoot: 'src',
-                    entryFileNames: '[name].js',
-                    format: 'esm',
-                    dir: 'es',
-                },
-                {
-                    preserveModules: true,
-                    preserveModulesRoot: 'src',
-                    entryFileNames: '[name].js',
-                    exports: 'named',
-                    format: 'cjs',
-                    dir: 'lib',
-                },
-            ],
+    extensions: ['.js', '.ts', '.tsx', '.vue', '.json']
+  },
+  build: {
+    rollupOptions: {
+      external: [
+        'vue',
+        'lodash-es',
+        'classnames',
+      ],
+      output: [
+        {
+          preserveModules: true,
+          preserveModulesRoot: 'src',
+          entryFileNames: '[name].js',
+          format: 'esm',
+          dir: 'es',
         },
-        lib: {
-            entry: 'src/index.ts',
+        {
+          preserveModules: true,
+          preserveModulesRoot: 'src',
+          entryFileNames: '[name].js',
+          exports: 'named',
+          format: 'cjs',
+          dir: 'lib',
         },
+      ],
     },
+    lib: {
+      entry: 'src/index.ts',
+    },
+  },
 })

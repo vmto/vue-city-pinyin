@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { computed } from 'vue'
 
 // 组件类名：前缀 + 组件名 + 自定义名
-// np-button-primary
+// ts-button-primary
 
 // a-b__c--d BEM
 // Block
@@ -12,7 +12,7 @@ import { computed } from 'vue'
 type BEMType = string | [string, 'B' | 'E' | 'M', ...unknown[]]
 
 export default function useClassName(componentName: string) {
-  const prefix = 'np'
+  const prefix = 'ts'
   const componentClass = `${prefix}-${componentName}`
 
   // const c = (suffix: string) => `${componentClass}-${suffix}`

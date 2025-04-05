@@ -4,7 +4,7 @@
   --city-active-red: #d0000e;
 }
 
-.np-city {
+.ts-city {
   &-select {
     * {
       margin: 0;
@@ -13,7 +13,12 @@
     }
 
     li {
-      list-style-type: none;
+      list-style: none;
+    }
+
+    .np-tooltip--popper {
+      padding: 10px;
+      width: 100%;
     }
   }
 
@@ -23,7 +28,6 @@
     width: 100%;
     color: #666;
     position: relative;
-
   }
 
   &-input {
@@ -37,19 +41,20 @@
 
   &-panel {
     padding: 10px;
-    width: 100%;
-    border: 1px solid var(--city-color-border);
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-    background-color: var(--city-color-bg);
-    animation: easePanel 0.3s ease-in-out;
-    overflow: hidden;
-    position: absolute;
-    left: 0;
-    top: 32px;
-    z-index: 100;
+    //width: 100%;
+    //border: 1px solid var(--city-color-border);
+    //box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    //background-color: var(--city-color-bg);
+    //animation: easePanel 0.3s ease-in-out;
+    //overflow: hidden;
+    //position: absolute;
+    //left: 0;
+    //top: 32px;
+    //z-index: 100;
 
     h5 {
-      margin-bottom: 10px;
+      margin: 0;
+      padding: 0;
       line-height: 1.2;
       color: #999;
       font-size: 14px;
@@ -65,10 +70,10 @@
       float: left;
       width: 60px;
       line-height: 24px;
-      font-size: 14px;
       text-align: center;
-      cursor: pointer;
+      font-size: 14px;
       border-left: 1px solid white;
+      cursor: pointer;
 
       &:first-child {
         border-left: none;

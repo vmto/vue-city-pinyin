@@ -1,5 +1,6 @@
-import type { App, Plugin } from 'vue'
+import type { App } from 'vue'
 import * as components from './components'
+import pkg from '../package.json'
 
 // 按需导入
 // import { CitySelect } from 'city-select'
@@ -10,11 +11,13 @@ export * from './components'
 // app.use(CitySelect)
 export default {
   install(app: App) {
-    Object.entries(components).forEach(([_name, comp]) => {
-      // console.log(_name, comp)
+    Object.entries(components).forEach(([name, comp]) => {
+      // console.log(name, comp)
       if (comp.install)
         app.use(comp as any)
+      else
+        app.component(name, comp)
     })
-    app.component('')
   },
-} as Plugin
+  version: pkg.version
+}

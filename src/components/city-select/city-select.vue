@@ -1,19 +1,24 @@
 <script lang="ts">
-import {computed, defineComponent, reactive, ref, watch} from 'vue'
-import useClassName from '../../utils/gen-class'
+import { computed, defineComponent, reactive, ref, watch } from 'vue'
 import cityList from '../../assets/city-data.json'
-
-interface CityType {
-  id: string
-  name: string
-}
+import useClassName from '../../utils/gen-class'
+import {useCompRef} from "../../hooks/useCompRef";
+import {Tooltip} from 'ts-tooltip'
+import type { CityType } from './types'
 
 export default defineComponent({
   name: 'CitySelect',
+  components: {
+    Tooltip,
+  },
   props: {
     hot: {
       type: Boolean,
-      default: false,
+      default: true,
+    },
+    placement: {
+      type: String,
+      default: 'bottom',
     },
     data: {
       type: Object as () => CityType,
@@ -21,13 +26,22 @@ export default defineComponent({
     },
   },
   emits: ['onChange'],
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     const inputRef = ref()
-    const {c, cx} = useClassName('city')
+    const { c, cx } = useClassName('city')
 
     const panelActive = ref<boolean>(false)
     const isMouseOver = ref<boolean>(false)
     const tagKey = ref<string>('热门')
+    const tooltipRef = useCompRef(Tooltip)
+
+    const clickOutside = (show: boolean) => {
+      if (show)
+        tooltipRef.value?.show()
+
+      else
+        tooltipRef.value?.hide()
+    }
 
     const cityItem = reactive<CityType>({
       id: props.data?.id,
@@ -64,13 +78,14 @@ export default defineComponent({
     })
 
     // 鼠标离开城市选择，关闭面板
-    const endChoice = ({type}: any) => {
+    const endChoice = ({ type }: any) => {
       if (type === 'mouseout')
         isMouseOver.value = false
 
       setTimeout(() => {
         if (!isMouseOver.value && inputRef.value !== document.activeElement)
-          panelActive.value = false
+          tooltipRef.value?.hide()
+        // panelActive.value = false
       }, 300)
     }
     const startMouseOver = () => {
@@ -82,7 +97,8 @@ export default defineComponent({
       if (ev.type === 'keypress')
         ev.returnValue = false
 
-      panelActive.value = true
+      tooltipRef.value?.show()
+      // panelActive.value = true
     }
 
     // 选择标签
@@ -99,46 +115,28 @@ export default defineComponent({
     const choiceCity = (item: any) => {
       cityItem.id = item.id
       cityItem.name = item.name
-      // this.$emit('on-change', item);
-      // console.log(150, item.id, item.name);
 
       // 关闭选择区域
       isMouseOver.value = true
-      panelActive.value = false
+      tooltipRef.value?.hide()
+      // panelActive.value = false
     }
 
     watch(() => props.data, (item) => {
       cityItem.id = item?.id
       cityItem.name = item?.name
-    }, {immediate: true})
+    }, { immediate: true })
 
     watch(cityItem, (newValue) => {
       emit('onChange', newValue)
     })
 
-    const wrapCls = cx(() => ({
-      [c('select')]: true,
-    }))
-
-    const pickerCls = cx(() => ({
-      [c('inner')]: true,
-    }))
-
-    const inputCls = cx(() => ({
-      [c('input')]: true,
-    }))
-
-    const panelCls = cx(() => ({
-      [c('panel')]: true,
-    }))
-
-    const tagsCls = cx(() => ({
-      [c('tags')]: true,
-    }))
-
-    const itemsCls = cx(() => ({
-      [c('items')]: true,
-    }))
+    const wrapCls = cx(() => ({ [c('select')]: true }))
+    const pickerCls = cx(() => ({ [c('inner')]: true }))
+    const inputCls = cx(() => ({ [c('input')]: true }))
+    const panelCls = cx(() => ({ [c('panel')]: true }))
+    const tagsCls = cx(() => ({ [c('tags')]: true }))
+    const itemsCls = cx(() => ({ [c('items')]: true }))
 
     return {
       wrapCls,
@@ -162,6 +160,8 @@ export default defineComponent({
       choiceTag,
       currTagIncludes,
       choiceCity,
+      tooltipRef,
+      clickOutside,
     }
   },
 })
@@ -174,52 +174,62 @@ export default defineComponent({
         @mouseout="endChoice"
         @mouseover="startMouseOver"
     >
-      <input
-          ref="inputRef"
-          :class="inputCls"
-          type="text"
-          name="city"
-          :value="currCityName"
-          @blur="endChoice"
-          @focus="startChoice"
+      <Tooltip
+          ref="tooltipRef"
+          trigger="click"
+          :placement="placement"
+          :manual="true"
+          @click-outside="clickOutside(false)"
       >
-      <div v-show="panelActive" :class="panelCls">
-        <h5>选择城市</h5>
+        <input
+            ref="inputRef"
+            :class="inputCls"
+            type="text"
+            name="city"
+            :value="currCityName"
+            @blur="endChoice"
+            @focus="startChoice"
+        >
+        <template #content>
+          <div :class="panelCls">
+            <h5>选择城市</h5>
 
-        <ul :class="tagsCls">
-          <li
-              v-for="(item, idx) in tagsArr"
-              :key="idx"
-              :class="{ 'z-on': item === tagKey }"
-              @click="choiceTag(item)"
-          >
-            {{ item }}
-          </li>
-        </ul>
-
-        <div :class="itemsCls">
-          <div
-              v-for="(citys, initial) in cityList"
-              v-show="currTagIncludes(initial)"
-              :key="initial"
-              :class="{ 'z-hot': initial === 'hot' }"
-          >
-            <h6 v-if="initial !== 'hot'">
-              {{ initial }}
-            </h6>
-            <ul>
+            <ul :class="tagsCls">
               <li
-                  v-for="(v, j) in citys"
-                  :key="j"
-                  :title="v.name"
-                  @click="choiceCity(v)"
+                  v-for="(item, idx) in tagsArr"
+                  :key="idx"
+                  :class="{ 'z-on': item === tagKey }"
+                  @click="choiceTag(item)"
               >
-                {{ v.name }}
+                {{ item }}
               </li>
             </ul>
+
+            <div :class="itemsCls">
+              <div
+                  v-for="(citys, initial) in cityList"
+                  v-show="currTagIncludes(initial)"
+                  :key="initial"
+                  :class="{ 'z-hot': initial === 'hot' }"
+              >
+                <h6 v-if="initial !== 'hot'">
+                  {{ initial }}
+                </h6>
+                <ul>
+                  <li
+                      v-for="(v, j) in citys"
+                      :key="j"
+                      :title="v.name"
+                      @click="choiceCity(v)"
+                  >
+                    {{ v.name }}
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </template>
+      </Tooltip>
     </div>
   </div>
 </template>
